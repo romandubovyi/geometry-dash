@@ -29,19 +29,24 @@ const JumpingBlock = () => {
             }, 1000 / 60); // Update approximately 60 times per second
         }
     };
+    const handleClick = (event) => {
+        console.log('Sprite clicked!', event);
+        // Add your logic here for handling the sprite click event
+    };
 
     return (
         <Stage width={800} height={600} options={{ backgroundColor: 0x1099bb }} onClick={handleJump}>
-            <Graphics
-                draw={g => {
-                    g.clear();
-                    g.beginFill(0x000000); // Red color
-                    g.drawRect(0, 0, blockSize, blockSize); // Adjust size as needed
-                    g.endFill();
-                }}
-                x={50} // Center the square horizontally
-                y={positionY}
-            />
+            {/*<Graphics*/}
+            {/*    draw={g => {*/}
+            {/*        g.clear();*/}
+            {/*        g.beginFill(0x000000); // Red color*/}
+            {/*        g.drawRect(0, 0, blockSize, blockSize); // Adjust size as needed*/}
+            {/*        g.endFill();*/}
+            {/*    }}*/}
+            {/*    x={50} // Center the square horizontally*/}
+            {/*    y={positionY}*/}
+            {/*/>*/}
+            <Sprite x={10} y={positionY} image="images/cube.png" scale={{x: 0.5, y: 0.5}} interactive={true} pointerdown={handleClick}/>
         </Stage>
     );
 };
