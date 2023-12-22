@@ -1,13 +1,23 @@
 // JumpingBlock.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Graphics, Sprite, Stage } from "@pixi/react";
 
 const JumpingBlock = () => {
     const [jumping, setJumping] = useState(false);
-    const [positionY, setPositionY] = useState(300); // Initial Y position
+    const [positionY, setPositionY] = useState(500); // Initial Y position
+    const [blockX, setBlockX] = useState(800);
     const blockSize = 50; // Adjust block size as needed
     const jumpHeight = 150; // Adjust jump height as needed
-    const jumpDuration = 1000; // Adjust jump duration as needed (in milliseconds)
+    const jumpDuration = 500; // Adjust jump duration as needed (in milliseconds)
+    const moveSpeed = 10; // Adjust moving block speed
+
+    useEffect(() => {
+        const moveInterval = setInterval(() => {
+            setBlockX((prevX) => (prevX > -50 ? prevX - moveSpeed : 800)); // Move block from right to left
+        }, 1000 / 60); // Update approximately 60 times per second
+
+        return () => clearInterval(moveInterval);
+    }, []);
 
     const handleJump = () => {
         if (!jumping) {
@@ -19,12 +29,12 @@ const JumpingBlock = () => {
                 const progress = Math.min(timePassed / jumpDuration, 1);
 
                 const jumpValue = -jumpHeight * Math.sin((progress * Math.PI) / 2);
-                setPositionY(300 + jumpValue);
+                setPositionY(500 + jumpValue);
 
                 if (progress >= 1) {
                     clearInterval(jumpInterval);
                     setJumping(false);
-                    setPositionY(300); // Reset to the initial Y position
+                    setPositionY(500); // Reset to the initial Y position
                 }
             }, 1000 / 60); // Update approximately 60 times per second
         }
@@ -36,17 +46,19 @@ const JumpingBlock = () => {
 
     return (
         <Stage width={800} height={600} options={{ backgroundColor: 0x1099bb }} onClick={handleJump}>
-            {/*<Graphics*/}
-            {/*    draw={g => {*/}
-            {/*        g.clear();*/}
-            {/*        g.beginFill(0x000000); // Red color*/}
-            {/*        g.drawRect(0, 0, blockSize, blockSize); // Adjust size as needed*/}
-            {/*        g.endFill();*/}
-            {/*    }}*/}
-            {/*    x={50} // Center the square horizontally*/}
-            {/*    y={positionY}*/}
-            {/*/>*/}
             <Sprite x={10} y={positionY} image="images/cube.png" scale={{x: 0.5, y: 0.5}} interactive={true} pointerdown={handleClick}/>
+            <Graphics
+                draw={(g) => {
+                    // Draw moving block (triangle)
+                    g.clear();
+                    g.beginFill(0x00FF00); // Green color
+                    g.moveTo(blockX, 500);
+                    g.lineTo(blockX + 50, 550);
+                    g.lineTo(blockX - 50, 550);
+                    g.lineTo(blockX, 500);
+                    g.endFill();
+                }}
+            />
         </Stage>
     );
 };
