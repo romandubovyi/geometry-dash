@@ -1,7 +1,6 @@
 import './App.css';
-import LoadingScreen from "./components/loading-screen";
+import LoadingScreen from "./components/LoadingScreen";
 import { useEffect, useState } from "react";
-import YourPixiComponent from "./components/my-pixi-component";
 import GameMenu from "./components/GameMenu";
 import JumpingBlock from "./components/JumpingBlock";
 

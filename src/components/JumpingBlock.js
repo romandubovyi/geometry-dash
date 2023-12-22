@@ -1,10 +1,11 @@
 // JumpingBlock.js
 import React, { useEffect, useState } from 'react';
 import { Graphics, Sprite, Stage } from "@pixi/react";
+import '@pixi/events';
 
 const JumpingBlock = () => {
     const [jumping, setJumping] = useState(false);
-    const [positionY, setPositionY] = useState(500); // Initial Y position
+    const [positionY, setPositionY] = useState(486); // Initial Y position
     const [blockX, setBlockX] = useState(800);
     const blockSize = 50; // Adjust block size as needed
     const jumpHeight = 150; // Adjust jump height as needed
@@ -45,7 +46,7 @@ const JumpingBlock = () => {
     };
 
     return (
-        <Stage width={800} height={600} options={{ backgroundColor: 0x1099bb }} onClick={handleJump}>
+        <Stage width={800} height={600} options={{ backgroundColor: 0xffffff }} onClick={handleJump}>
             <Sprite x={10} y={positionY} image="images/cube.png" scale={{x: 0.5, y: 0.5}} interactive={true} pointerdown={handleClick}/>
             <Graphics
                 draw={(g) => {
